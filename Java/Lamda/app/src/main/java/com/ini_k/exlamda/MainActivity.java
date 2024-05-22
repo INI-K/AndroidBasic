@@ -22,9 +22,21 @@ public class MainActivity extends AppCompatActivity{
         conCat.makeString(s1,s2);
 
         System.out.println("----");
+        System.out.println("----");
 
         StringConcat conCat2 = (s,v) -> System.out.println(s + ", "+ v);
         conCat2.makeString(s1,s2);
+
+        System.out.println("----");
+        System.out.println("----");
+        System.out.println("----");
+
+        PrintString lamdaStr = s -> System.out.println(s);
+        lamdaStr.showString("Hello Lamda_1");
+        showMyString(lamdaStr);
+    }
+    public static void showMyString(PrintString p){
+        p.showString("Hello_Lamda_ 2");
     }
 
 }
