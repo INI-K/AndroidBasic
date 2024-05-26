@@ -10,11 +10,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.stream.IntStream;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.subjects.AsyncSubject;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.ReplaySubject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -169,18 +174,93 @@ public class MainActivity extends AppCompatActivity {
                 .single("Default Value")
                 .subscribe(System.out::println);
 
-
-
         Observable.just(new ExSingleClass("이니케이"), new ExSingleClass("쿠스"))
                 .take(1)
                 .single(new ExSingleClass("쀈타"))
                 .subscribe(ExSingleClass::getName);
 
-
         System.out.println("================");
         System.out.println("================");
         System.out.println("Maybe 클래스");
         System.out.println("================");
+        //아마도,
+        // 0개 혹은 1개 (0개가능 또는 1개만 가능 )
+
+        System.out.println("================");
+        System.out.println("================");
+        System.out.println("Subject 클래스");
+        System.out.println("================");
+
+        AsyncSubject<String> subject = AsyncSubject.create();
+        subject.subscribe(data -> System.out.println("Subscriber #1 ==> " + data));
+        subject.onNext("Red");
+        subject.onNext("Green");
+        subject.subscribe(data -> System.out.println("Subscriber #2 ==> " + data));
+        subject.onNext("Blue");
+        subject.onComplete();
+
+        Float[] temperature = {10.1f, 13.4f, 12.5f};
+        Observable<Float> tempratureSource = Observable.fromArray(temperature);
+
+        AsyncSubject<Float> tempratureAsyncSub = AsyncSubject.create();
+        tempratureAsyncSub.subscribe(data -> System.out.println("temprature Subscriber #1 ==> " + data));
+
+        tempratureSource.subscribe(tempratureAsyncSub);
+
+        //public abstract class Subject<T> extends Observable<T> implements Observer<T>
+
+        AsyncSubject<Integer> asyncSubInteger = AsyncSubject.create();
+        asyncSubInteger.onNext(10);
+        asyncSubInteger.onNext(11);
+        asyncSubInteger.subscribe(data -> System.out.println("Subscriber #1 => " + data));
+        asyncSubInteger.onNext(12);
+        asyncSubInteger.onComplete();
+        asyncSubInteger.onNext(13);
+        asyncSubInteger.subscribe(data -> System.out.println("Subscriber #2 => " + data));
+        asyncSubInteger.subscribe(data -> System.out.println("Subscriber #3 => " + data));
+
+
+        System.out.println("================");
+        System.out.println("================");
+        System.out.println("BehaviorSubject 클래스");
+        System.out.println("구독자가 구독하면 가장 최근값,혹은 기본값을 넘겨줌");
+        System.out.println("================");
+
+        BehaviorSubject<String> beHaviorSub = BehaviorSubject.createDefault("PINK");
+        beHaviorSub.subscribe(data -> System.out.println("Subscriber #1 =>" + data));
+        beHaviorSub.onNext("RED");
+        beHaviorSub.onNext("GREEN");
+        beHaviorSub.subscribe(data -> System.out.println("Subscriber #2 =>" + data));
+        beHaviorSub.onNext("BLUE");
+        beHaviorSub.onComplete();
+
+        System.out.println("================");
+        System.out.println("================");
+        System.out.println("PublishSubject 클래스");
+        System.out.println("해당 시점에 발생한 데이터를 구독자에게 전달받는다");
+        System.out.println("================");
+
+        PublishSubject<String> publishSubject = PublishSubject.create();
+        publishSubject.subscribe(data -> System.out.println("Subscriber #1 => " + data));
+        publishSubject.onNext("RED");
+        publishSubject.onNext("GREEN");
+        publishSubject.subscribe(data -> System.out.println("Subscriber #2 => " + data));
+        publishSubject.onNext("BLUE");
+        publishSubject.onComplete();
+
+        System.out.println("================");
+        System.out.println("================");
+        System.out.println("ReplaySubject 클래스");
+        System.out.println("해당 시점에 발생한 데이터를 구독자에게 전달받는다");
+        System.out.println("================");
+
+        ReplaySubject<String> replaySubject = ReplaySubject.create();
+        replaySubject.subscribe(data -> System.out.println("Subscriber #1 => " + data));
+        replaySubject.onNext("RED");
+        replaySubject.onNext("GREEN");
+        replaySubject.subscribe(data -> System.out.println("Subscriber #2 => " + data));
+        replaySubject.onNext("BLUE");
+        replaySubject.onComplete();
     }
 
     private static Integer[] toIntegerArray(int[] intArray) {
