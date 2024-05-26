@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 import io.reactivex.Maybe;
@@ -16,6 +17,7 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.observables.ConnectableObservable;
 import io.reactivex.subjects.AsyncSubject;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
@@ -30,10 +32,12 @@ public class MainActivity extends AppCompatActivity {
         File dexOutputDir = getApplicationContext().getCodeCacheDir();
         dexOutputDir.setReadOnly();
 
+//        Rxjava 데이터 흐름과 전달에 관한 프로그래밍 패러다임
+//        어떤 한 시대 사람들의 견해나 사고를 근본적으로 규정하고 있는 테두리로서의 인식의 체계. 또는 사물에 대한 이론적인 틀이나 체계.
+
         FirstExample demo = new FirstExample();
         demo.emit();
         demo.emit2();
-        /////
 
         //기본 Just() 함수
         //순차적으로 처리한다
@@ -237,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("================");
         System.out.println("================");
         System.out.println("PublishSubject 클래스");
-        System.out.println("해당 시점에 발생한 데이터를 구독자에게 전달받는다");
+        System.out.println("해당 시점에 발생한 데이터만 구독자에게 전달받는다");
         System.out.println("================");
 
         PublishSubject<String> publishSubject = PublishSubject.create();
@@ -251,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("================");
         System.out.println("================");
         System.out.println("ReplaySubject 클래스");
-        System.out.println("해당 시점에 발생한 데이터를 구독자에게 전달받는다");
+        System.out.println("발행한 데이터 모두를 구독한 시점에 구독자에게 전달받는다.");
         System.out.println("================");
 
         ReplaySubject<String> replaySubject = ReplaySubject.create();
@@ -261,6 +265,30 @@ public class MainActivity extends AppCompatActivity {
         replaySubject.subscribe(data -> System.out.println("Subscriber #2 => " + data));
         replaySubject.onNext("BLUE");
         replaySubject.onComplete();
+
+        System.out.println("================");
+        System.out.println("================");
+        System.out.println("ConnectableObservable 클래스");
+        System.out.println("Subject클래스 처럼 Cold Observable을 Hot Observable로 변환한다.");
+        System.out.println("================");
+
+        String[] stringdata = {"RED", "GREEN", "BLUE"};
+        Observable<String> balls = Observable.interval(1000L, TimeUnit.MILLISECONDS)
+                .map(Long::intValue)
+                .map(i -> stringdata[i])
+                .take(stringdata.length);
+        ConnectableObservable<String> connectableObservableSource = balls.publish();
+        connectableObservableSource.subscribe(data -> System.out.println("Subscriber #1 => " + data));
+        connectableObservableSource.subscribe(data -> System.out.println("Subscriber #2 => " + data));
+        connectableObservableSource.connect();
+
+        try {
+            Thread.sleep(2500);
+            connectableObservableSource.subscribe(data -> System.out.println("Subscriber #3 => " + data));
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static Integer[] toIntegerArray(int[] intArray) {
