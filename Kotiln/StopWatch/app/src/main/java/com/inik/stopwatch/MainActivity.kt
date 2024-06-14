@@ -3,8 +3,11 @@ package com.inik.stopwatch
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
+import androidx.core.view.setPadding
 import com.inik.stopwatch.databinding.ActivityMainBinding
 import com.inik.stopwatch.databinding.DialogCountdownSettingBinding
 import java.io.File
@@ -56,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         initCountdownView()
     }
 
-    private fun initCountdownView(){
+    private fun initCountdownView() {
         binding.countdownTextView.text = String.format("%02d", countdownSecond)
         binding.countdownProgressBar.progress = 100
     }
@@ -110,7 +113,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun lap() {
-
+        val container = binding.lapContainerLinewarLayout
+        val lapTextView = TextView(this).apply {
+            textSize = 20f
+            gravity = Gravity.CENTER
+            val minute = currentDecisecond.div(10) / 60
+            val second = currentDecisecond.div(10) % 60
+            val deciSecond = currentDecisecond % 10
+            text = container.childCount.inc().toString()+". " + String.format(
+                "%02d:%02d %01d",
+                minute,
+                second,
+                deciSecond
+            )
+            setPadding(30)
+        }.let {labTextView ->
+            container.addView(labTextView,0)
+        }
     }
 
     private fun showCountDownSettingDialog() {
