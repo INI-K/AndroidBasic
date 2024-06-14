@@ -1,5 +1,7 @@
 package com.inik.stopwatch
 
+import android.media.AudioManager
+import android.media.ToneGenerator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -16,7 +18,7 @@ import kotlin.concurrent.timer
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private var countdownSecond = 10
+    private var countdownSecond = 5
     private var currentCountdownDeciSecond = countdownSecond * 10
     private var currentDecisecond = 0
     private var timer: Timer? = null
@@ -90,6 +92,11 @@ class MainActivity : AppCompatActivity() {
                     binding.countdownProgressBar.progress = progress.toInt()
                 }
             }
+            if(currentDecisecond == 0 && currentCountdownDeciSecond < 31 && currentCountdownDeciSecond % 10 == 0){
+                val toneType = if(currentCountdownDeciSecond == 0) ToneGenerator.TONE_CDMA_HIGH_L else ToneGenerator.TONE_CDMA_ANSWER
+                ToneGenerator(AudioManager.STREAM_ALARM, ToneGenerator.MAX_VOLUME)
+                    .startTone(toneType, 100)
+            }
         }
     }
 
@@ -100,11 +107,13 @@ class MainActivity : AppCompatActivity() {
         binding.lapBtn.isVisible = false;
 
         currentDecisecond = 0
+        currentCountdownDeciSecond = countdownSecond * 10
         binding.timeTextView.text = "00:00"
         binding.tickTextView.text = "0"
 
         binding.countdownGroup.isVisible = true
         initCountdownView()
+        binding.lapContainerLinewarLayout.removeAllViews()
     }
 
     private fun pause() {
@@ -113,6 +122,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun lap() {
+        if(currentDecisecond == 0) return
         val container = binding.lapContainerLinewarLayout
         val lapTextView = TextView(this).apply {
             textSize = 20f
@@ -120,7 +130,7 @@ class MainActivity : AppCompatActivity() {
             val minute = currentDecisecond.div(10) / 60
             val second = currentDecisecond.div(10) % 60
             val deciSecond = currentDecisecond % 10
-            text = container.childCount.inc().toString()+". " + String.format(
+            text = "${container.childCount.inc().toString()}. "+ String.format(
                 "%02d:%02d %01d",
                 minute,
                 second,
