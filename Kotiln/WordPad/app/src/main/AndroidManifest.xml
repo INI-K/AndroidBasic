@@ -12,7 +12,7 @@
         android:theme="@style/Theme.WordPad"
         tools:targetApi="31">
         <activity
-            android:name=".AddActiviry"
+            android:name=".AddActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
