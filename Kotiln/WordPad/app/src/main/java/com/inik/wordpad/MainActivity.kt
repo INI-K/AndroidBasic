@@ -1,11 +1,13 @@
 package com.inik.wordpad
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.inik.wordpad.databinding.ActivityMainBinding
@@ -14,12 +16,23 @@ import java.io.File
 class MainActivity : AppCompatActivity(), WordAdapter.ItemClickListner {
     private lateinit var binding: ActivityMainBinding
     private lateinit var wordAdapter: WordAdapter
+    private var selectedWord: Word? = null
     private val updateAddWordResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         val isUpdated = result.data?.getBooleanExtra("isUpdated", false)
-        if (result.resultCode == RESULT_OK && isUpdated == true ) {
+        if (result.resultCode == RESULT_OK && isUpdated == true) {
             updateAddWord()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private val updateEditWordResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val editWord = result.data?.getParcelableExtra("editWord", Word::class.java) ?: null
+        if (result.resultCode == RESULT_OK && editWord != null) {
+            updateEditWord(editWord)
         }
     }
 
@@ -39,6 +52,14 @@ class MainActivity : AppCompatActivity(), WordAdapter.ItemClickListner {
             }
         }
 
+        binding.deleteImageView.setOnClickListener {
+            Log.d("삭제","버튼눌림")
+            delete()
+        }
+
+        binding.editImageView.setOnClickListener {
+            edit()
+        }
     }
 
     //    private fun initViews(){
@@ -77,7 +98,49 @@ class MainActivity : AppCompatActivity(), WordAdapter.ItemClickListner {
         }.start()
     }
 
+    private fun updateEditWord(word: Word){
+        val index = wordAdapter.list.indexOfFirst { it.id == word.id}
+        wordAdapter.list[index] = word
+        runOnUiThread{
+//            selectedWord = word
+            wordAdapter.notifyItemChanged(index)
+            binding.textTextView.text = word.text
+            binding.meanTextView.text = word.mean
+        }
+    }
+    private fun delete() {
+        if (selectedWord == null) {
+            Log.d("삭제", "없음")
+        }
+
+        Thread {
+            selectedWord?.let { word ->
+                AppDatabase.getInstance(this)?.wordDao()?.delete(word)
+                runOnUiThread {
+                    wordAdapter.list.remove(word)
+                    wordAdapter.notifyDataSetChanged()
+                    binding.textTextView.text = ""
+                    binding.meanTextView.text = ""
+                    Toast.makeText(this, "삭제가 완료됬습니다.", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+        }.start()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun edit(){
+        if(selectedWord == null) return
+
+        val intent = Intent(this, AddActivity::class.java).putExtra("originWord", selectedWord)
+        updateEditWordResult.launch(intent)
+
+    }
+
     override fun onClick(word: Word) {
-        Toast.makeText(this, "${word.text}가 클릭 됐습니다", Toast.LENGTH_SHORT).show()
+        selectedWord = word
+        binding.textTextView.text = word.text
+        binding.meanTextView.text = word.mean
+
     }
 }
