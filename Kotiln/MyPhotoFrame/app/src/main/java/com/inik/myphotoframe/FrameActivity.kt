@@ -2,6 +2,7 @@ package com.inik.myphotoframe
 
 import android.net.Uri
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,8 +17,14 @@ class FrameActivity : AppCompatActivity() {
         binding = ActivityFrameBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val images = (intent.getStringArrayListExtra("images")?: emptyList())
-            .map { uriString -> FrameItem(Uri.parse(uriString))}
+        binding.toolbar.apply {
+            title = "나만의 앨범"
+            setSupportActionBar(this)
+        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val images = (intent.getStringArrayListExtra("images") ?: emptyList())
+            .map { uriString -> FrameItem(Uri.parse(uriString)) }
         val frameAdapter = FrameAdapter(images)
 
         binding.viewPager.adapter = frameAdapter
@@ -25,9 +32,21 @@ class FrameActivity : AppCompatActivity() {
         TabLayoutMediator(
             binding.tabLayout,
             binding.viewPager,
-        ){
-            tab, position ->
+        ) { tab, position ->
             binding.viewPager.currentItem = tab.position
         }.attach()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+       return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
     }
 }
