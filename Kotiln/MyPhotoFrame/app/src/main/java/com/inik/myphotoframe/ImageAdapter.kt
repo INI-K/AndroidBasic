@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.inik.myphotoframe.databinding.ItemImageBinding
 import com.inik.myphotoframe.databinding.ItemLoadMoreBinding
+import java.io.Serializable
 
 
 class ImageAdapter(private val itemClickListener: ItemClickListener) : ListAdapter<ImageItems, RecyclerView.ViewHolder>(
@@ -68,7 +69,7 @@ class ImageAdapter(private val itemClickListener: ItemClickListener) : ListAdapt
     }
 }
 
-sealed class ImageItems {
+sealed class ImageItems(): Serializable {
     data class Image(
         val uri: Uri
     ) : ImageItems()

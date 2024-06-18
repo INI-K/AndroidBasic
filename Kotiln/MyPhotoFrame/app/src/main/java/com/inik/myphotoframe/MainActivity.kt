@@ -1,6 +1,7 @@
 package com.inik.myphotoframe
 
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -32,7 +33,19 @@ class MainActivity : AppCompatActivity() {
         binding.loadImageBtn.setOnClickListener {
             checkPermission()
         }
+        binding.navigateFrameActivityBtn.setOnClickListener {
+            navigateToFrameActivity()
+        }
         initRecyclerView()
+    }
+
+    private fun navigateToFrameActivity(){
+        val images = imageAdapter.currentList.filterIsInstance<ImageItems.Image>().map { it.uri.toString() }
+        val arrayList: ArrayList<String> = ArrayList(images)
+        Log.d("어레이 확인",arrayList.toString())
+        val intent = Intent(this, FrameActivity::class.java)
+            .putExtra("images", arrayList)
+        startActivity(intent)
     }
 
     private fun initRecyclerView(){
