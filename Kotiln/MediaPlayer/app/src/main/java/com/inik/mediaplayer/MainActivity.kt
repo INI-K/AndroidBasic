@@ -1,5 +1,6 @@
 package com.inik.mediaplayer
 
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -10,7 +11,6 @@ import com.inik.mediaplayer.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private var mediaPlayer: MediaPlayer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -22,17 +22,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun mediaPlayerPlay(){
-        if(mediaPlayer == null){
-            mediaPlayer = MediaPlayer.create(this,R.raw.music).apply {
-                isLooping = true
+        val intent = Intent(this, MediaPlayerService::class.java)
+            .apply {
+                action = MEDIA_PLAYER_PLAY
             }
-        }
-        mediaPlayer?.start()
+        startService(intent)
+//        if(mediaPlayer == null){
+//            mediaPlayer = MediaPlayer.create(this,R.raw.music).apply {
+//                isLooping = true
+//            }
+//        }
+//        mediaPlayer?.start()
     }
     fun mediaPlayerPause(){
-        mediaPlayer?.pause()
+        val intent = Intent(this, MediaPlayerService::class.java)
+            .apply {
+                action = MEDIA_PLAYER_PAUSE
+            }
+        startService(intent)
     }
     fun mediaPlayerStop(){
-        mediaPlayer?.stop()
+        val intent = Intent(this, MediaPlayerService::class.java)
+            .apply {
+                action = MEDIA_PLAYER_STOP
+            }
+        startService(intent)
     }
 }
