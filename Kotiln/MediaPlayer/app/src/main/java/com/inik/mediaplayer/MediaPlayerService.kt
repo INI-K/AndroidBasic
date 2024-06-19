@@ -7,12 +7,15 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.drawable.Icon
 import android.media.MediaPlayer
 import android.os.IBinder
+import androidx.core.content.ContextCompat
 
 class MediaPlayerService : Service() {
     private  var mediaPlayer: MediaPlayer? = null
+    private val receiver = LowBatteryReceiver()
     override fun onBind(intent: Intent): IBinder? {
         return null
     }
@@ -21,6 +24,7 @@ class MediaPlayerService : Service() {
     override fun onCreate() {
         super.onCreate()
         creatNotficaitonChannel()
+        initReceiver()
 
         val playIcon = Icon.createWithResource(baseContext,R.drawable.baseline_play_arrow_24)
         val pauseIcon = Icon.createWithResource(baseContext,R.drawable.baseline_pause_24)
@@ -91,6 +95,21 @@ class MediaPlayerService : Service() {
         startForeground(100, notification)
     }
 
+    private fun initReceiver(){
+        val filter = IntentFilter().apply {
+            addAction(Intent.ACTION_BATTERY_LOW)
+        }
+        baseContext.registerReceiver(receiver,filter)
+
+//        val listenToBroadcastsFromOtherApps = false
+//        val receiverFlags = if (listenToBroadcastsFromOtherApps) {
+//            ContextCompat.RECEIVER_EXPORTED
+//        } else {
+//            ContextCompat.RECEIVER_NOT_EXPORTED
+//        }
+//
+//        ContextCompat.registerReceiver(baseContext, receiver, filter, receiverFlags)
+    }
     private fun creatNotficaitonChannel(){
         val channel = NotificationChannel(CHANNEL_ID, "MEDIA_PLAY_CHANNEL",NotificationManager.IMPORTANCE_DEFAULT)
 
@@ -125,7 +144,9 @@ class MediaPlayerService : Service() {
             stop()
             release()
         }
-        mediaPlayer == null
+        mediaPlayer = null
+//        unregisterReceiver(receiver)
+        baseContext.unregisterReceiver(receiver)
         super.onDestroy()
     }
 }
