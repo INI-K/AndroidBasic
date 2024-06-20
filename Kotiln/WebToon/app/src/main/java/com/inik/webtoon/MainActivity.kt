@@ -2,12 +2,16 @@ package com.inik.webtoon
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.Gravity
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.SimpleAdapter
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.tabs.TabLayoutMediator
 import com.inik.webtoon.databinding.ActivityMainBinding
 import com.inik.webtoon.databinding.FragmentWebviewBinding
 
@@ -20,22 +24,33 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val container = binding.fragmentContainer
 
-        val btn1 = binding.btn1.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragmentContainer, WebViewFragment())
-                commit()
+
+        binding.viewPager.adapter = ViewPagerAdapter(this)
+
+        TabLayoutMediator(binding.tabLayout,binding.viewPager){ tab, position ->
+            run {
+                val textView = TextView(this@MainActivity)
+                textView.text = "position $position"
+                textView.gravity = Gravity.CENTER
+
+                tab.customView = textView
+//                tab.text = "position $position"
             }
-        }
+        }.attach()
+    }
 
-        val btn2 = binding.btn2.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragmentContainer, BFragment())
-                commit()
+    override fun onBackPressed() {
+        val currentFragment = supportFragmentManager.fragments[binding.viewPager.currentItem]
+        if (currentFragment is WebViewFragment) {
+            if (currentFragment.canGoback()) {
+                currentFragment.goBack()
+            } else {
+                super.onBackPressed()
             }
+        } else {
+            super.onBackPressed()
         }
-
-
+//        super.onBackPressed()
     }
 }
