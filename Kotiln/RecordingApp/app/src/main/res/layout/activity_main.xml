@@ -18,10 +18,11 @@
         android:text="00:00:00"
         android:textSize="40sp"/>
 
-    <View
+    <com.inik.recordingapp.WavaformView
         android:id="@+id/waveformView"
         android:layout_width="0dp"
         android:layout_height="250dp"
+        android:background="#DADADA"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/recordBtn"
