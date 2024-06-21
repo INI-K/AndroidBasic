@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                         val response = response.body?.string()
 
                        val message = Gson().fromJson(response, Message::class.java)
-                        
+
                         runOnUiThread {
                             informationTextView.isVisible = true
                             informationTextView.text = message.message
