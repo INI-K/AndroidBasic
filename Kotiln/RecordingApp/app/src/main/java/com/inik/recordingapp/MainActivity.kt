@@ -23,7 +23,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.inik.recordingapp.databinding.ActivityMainBinding
 import java.io.IOException
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),OnTimerTickListener {
     companion object {
         private const val REQUEST_RECORD_AUDIO_CODE = 200
     }
@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     private var player: MediaPlayer? = null
     private var fileName: String? = ""
     private var state: State = State.RELEASE
+    private lateinit var timer: Timer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         fileName = "${externalCacheDir?.absolutePath}/audiorecordtest.3gp"
+        timer = Timer(this)
 
         binding.recordBtn.setOnClickListener {
             when (state) {
@@ -72,6 +74,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        binding.playBtn.isEnabled = false
+        binding.playBtn.alpha = 0.3f
 
         binding.stopBtn.setOnClickListener {
             when (state) {
@@ -135,6 +139,9 @@ class MainActivity : AppCompatActivity() {
         player?.setOnCompletionListener {
             stopPlaying()
         }
+        binding.waveformView.clearWave()
+        timer.start()
+
         binding.recordBtn.isEnabled = false
         binding.recordBtn.alpha = 0.3f
     }
@@ -144,6 +151,8 @@ class MainActivity : AppCompatActivity() {
 
         player?.release()
         player = null
+
+        timer.stop()
 
         binding.recordBtn.isEnabled = true
         binding.recordBtn.alpha = 1.0f
@@ -156,6 +165,8 @@ class MainActivity : AppCompatActivity() {
 
         recorder = null
         state = State.RELEASE
+
+        timer.stop()
 
         binding.recordBtn.setImageDrawable(
             ContextCompat.getDrawable(
@@ -183,6 +194,10 @@ class MainActivity : AppCompatActivity() {
             }
             start()
         }
+
+        binding.waveformView.clearData()
+        timer.start()
+
         binding.recordBtn.setImageDrawable(
             ContextCompat.getDrawable(
                 this,
@@ -251,6 +266,19 @@ class MainActivity : AppCompatActivity() {
             } else {
                 showPermissionSettingDialog()
             }
+        }
+    }
+    override fun onTick(duration: Long) {
+        val millisecond = duration % 1000
+        val second = (duration/1000) % 60
+        val minute = (duration/1000 / 60)
+
+        binding.timerTextView.text = String.format("%02d:%02d.%02d",minute,second,millisecond/10)
+
+        if(state == State.PLAYING){
+            binding.waveformView.replayAmplitude(duration.toInt())
+        }else{
+            binding.waveformView.addAmplitude(recorder?.maxAmplitude?.toFloat() ?: 0f)
         }
     }
 }
