@@ -28,8 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var gIthubService: GIthubService
     private lateinit var userAdapter: UserAdapter
-    private var retrofit =  Retrofit.Builder().baseUrl("https://api.github.com/")
-    .addConverterFactory(GsonConverterFactory.create()).build()
+    private var retrofit =  ApiClient.retrofit
 
     private var searchFor: String = ""
     private val handler = Handler(Looper.getMainLooper())
@@ -40,16 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         gIthubService = retrofit.create(GIthubService::class.java)
 
-//        gIthubService.listRepos("square").enqueue(object : Callback<List<Repo>> {
-//            override fun onResponse(call: Call<List<Repo>>, response: Response<List<Repo>>) {
-//                Log.e("MainActivity", response.body().toString())
-//            }
-//
-//            override fun onFailure(call: Call<List<Repo>>, t: Throwable) {
-//
-//            }
-//
-//        })
+
 
         userAdapter = UserAdapter{
             val intent = Intent(this@MainActivity, RepoActivity::class.java)

@@ -9,10 +9,8 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface GIthubService {
-    @Headers("Authorization: Bearer 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")
     @GET("/users/{username}/repos")
-    fun listRepos(@Path("username") username: String): Call<List<Repo>>
-    @Headers("Authorization: Bearer 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")
+    fun listRepos(@Path("username") username: String, @Query("page") page: Int): Call<List<Repo>>
     @GET("search/users")
     fun searchUsers(@Query("q") query: String): Call<UserDto>
 
