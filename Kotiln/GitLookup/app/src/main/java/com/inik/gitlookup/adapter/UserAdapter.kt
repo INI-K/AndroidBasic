@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.inik.gitlookup.databinding.ItemUserBinding
 import com.inik.gitlookup.model.User
 
-class UserAdapter : ListAdapter<User, UserAdapter.ViewHolder>(diffUtil) {
+class UserAdapter(val onClick: (User) -> Unit) : ListAdapter<User, UserAdapter.ViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -29,6 +29,9 @@ class UserAdapter : ListAdapter<User, UserAdapter.ViewHolder>(diffUtil) {
         RecyclerView.ViewHolder(viewBinding.root) {
         fun bind(item: User) {
             viewBinding.usernameTextView.text = item.userName
+            viewBinding.root.setOnClickListener {
+                onClick(item)
+            }
         }
     }
 
