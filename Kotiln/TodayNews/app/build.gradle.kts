@@ -51,11 +51,15 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+
     implementation ("com.tickaroo.tikxml:retrofit-converter:0.8.13")
     implementation ("com.tickaroo.tikxml:core:0.8.13")
     implementation ("com.tickaroo.tikxml:annotation:0.8.13")
     kapt ("com.tickaroo.tikxml:processor:0.8.13")
-    implementation ("implementation 'org.jsoup:jsoup:1.17.2'")
+
+    implementation ("org.jsoup:jsoup:1.17.2")
+
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
 
 //    annotationProcessor ("com.github.Tickaroo.tikxml:processor-common:0.8.13")
 //    implementation ("com.tickaroo.tikxml:converter-date-rfc3339:0.8.13") {
