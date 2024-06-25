@@ -34,6 +34,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -52,6 +55,7 @@ dependencies {
     implementation ("com.tickaroo.tikxml:core:0.8.13")
     implementation ("com.tickaroo.tikxml:annotation:0.8.13")
     kapt ("com.tickaroo.tikxml:processor:0.8.13")
+    implementation ("implementation 'org.jsoup:jsoup:1.17.2'")
 
 //    annotationProcessor ("com.github.Tickaroo.tikxml:processor-common:0.8.13")
 //    implementation ("com.tickaroo.tikxml:converter-date-rfc3339:0.8.13") {
