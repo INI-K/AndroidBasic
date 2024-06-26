@@ -61,6 +61,10 @@ dependencies {
 
     implementation ("com.github.bumptech.glide:glide:4.16.0")
 
+    implementation ("com.airbnb.android:lottie:5.2.0")
+
+
+
 //    annotationProcessor ("com.github.Tickaroo.tikxml:processor-common:0.8.13")
 //    implementation ("com.tickaroo.tikxml:converter-date-rfc3339:0.8.13") {
 //        exclude group: "com.tickaroo.tikxml", module: "core"
