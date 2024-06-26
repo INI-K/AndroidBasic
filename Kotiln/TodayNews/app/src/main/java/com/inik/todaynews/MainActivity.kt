@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.inik.todaynews.databinding.ActivityMainBinding
 import com.tickaroo.tikxml.TikXml
@@ -110,6 +111,9 @@ class MainActivity : AppCompatActivity() {
 
                 val list = response.body()?.channel?.items.orEmpty().tranceform()
                 newsAdapter.submitList(list)
+
+                binding.notFoundView.isVisible = list.isEmpty()
+
                 list.forEachIndexed() { index, news ->
                     Thread {
 
