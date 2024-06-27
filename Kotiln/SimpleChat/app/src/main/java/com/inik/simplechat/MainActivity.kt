@@ -9,12 +9,16 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.inik.simplechat.chatlist.ChatListFragment
 import com.inik.simplechat.databinding.ActivityMainBinding
+import com.inik.simplechat.mypage.MyPageFragment
 import com.inik.simplechat.userlist.UserFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val userFragment= UserFragment()
+    private val charListFragment= ChatListFragment()
+    private val myPageFragment= MyPageFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -36,15 +40,18 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.chatRoomList -> {
+                    replaceFragment(charListFragment)
                     return@setOnItemSelectedListener true
                 }
                 R.id.myPage -> {
+                    replaceFragment(myPageFragment)
                     return@setOnItemSelectedListener true
                 }else -> {
                     false
                 }
             }
         }
+        replaceFragment(userFragment)
     }
 
     private fun replaceFragment(fragment: Fragment) {
