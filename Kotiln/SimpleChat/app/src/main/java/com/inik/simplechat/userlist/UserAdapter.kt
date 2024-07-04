@@ -1,5 +1,6 @@
 package com.inik.simplechat.userlist
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.inik.simplechat.databinding.ItemUserBinding
 
-class UserAdapter: ListAdapter<UserItem, UserAdapter.ViewHolder>(differ) {
+class UserAdapter(private val onClick: (UserItem) -> Unit): ListAdapter<UserItem, UserAdapter.ViewHolder>(differ) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -19,6 +20,7 @@ class UserAdapter: ListAdapter<UserItem, UserAdapter.ViewHolder>(differ) {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         holder.bind(currentList[position])
     }
 
@@ -26,6 +28,10 @@ class UserAdapter: ListAdapter<UserItem, UserAdapter.ViewHolder>(differ) {
         fun bind(item: UserItem){
             binding.nicknameTextView.text = item.username
             binding.descriptionTextView.text = item.description
+
+            binding.root.setOnClickListener {
+                onClick(item)
+            }
         }
     }
     companion object {

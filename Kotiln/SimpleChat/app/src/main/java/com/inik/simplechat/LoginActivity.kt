@@ -7,6 +7,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.database.database
+import com.google.firebase.messaging.messaging
+import com.inik.simplechat.Key.Companion.DB_USERS
 import com.inik.simplechat.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -46,17 +49,32 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+
             Firebase.auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { tesk ->
-                    if (tesk.isSuccessful) {
+                    val currentUser = Firebase.auth.currentUser
+                    if (tesk.isSuccessful && currentUser != null) {
                         //로그인 성공
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                        val userId = currentUser.uid
+
+                        Firebase.messaging.token.addOnCompleteListener{
+                            val token = it.result
+                            val user = mutableMapOf<String,Any>()
+                            user["userId"] = userId
+                            user["username"] = email
+                            user["fcmToken"] = token
+
+
+                            Firebase.database.reference.child(DB_USERS).child(userId).updateChildren(user)
+
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
                     } else {
                         //로그인 실패
                         Log.e("LoginActivity", "로그인 실패 ! 사유 : ${tesk.exception.toString()}")
-                        Toast.makeText(this, "회원가입에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
         }

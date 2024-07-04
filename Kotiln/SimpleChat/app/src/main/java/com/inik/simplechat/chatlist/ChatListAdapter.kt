@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.inik.simplechat.databinding.ItemChatroomBinding
 import com.inik.simplechat.databinding.ItemUserBinding
 
-class ChatListAdapter: ListAdapter<ChatRoomItem, ChatListAdapter.ViewHolder>(differ) {
+class ChatListAdapter(private val onClick: (ChatRoomItem) -> Unit): ListAdapter<ChatRoomItem, ChatListAdapter.ViewHolder>(differ) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,6 +27,10 @@ class ChatListAdapter: ListAdapter<ChatRoomItem, ChatListAdapter.ViewHolder>(dif
         fun bind(item: ChatRoomItem){
             binding.nicknameTextView.text = item.otherUserName
             binding.lastMessgeTextView.text = item.lastMessage
+
+            binding.root.setOnClickListener {
+                onClick(item)
+            }
         }
     }
     companion object {

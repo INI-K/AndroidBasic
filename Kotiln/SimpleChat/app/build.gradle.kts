@@ -37,6 +37,16 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/gradle/incremental.annotation.processors"
+            excludes += "/META-INF/{DEPENDENCIES}"
+            excludes += "/META-INF/{LICENSE}"
+            excludes += "/META-INF/{LICENSE.txt}"
+            excludes += "/META-INF/{INDEX.LIST}"
+        }
+    }
 }
 
 dependencies {
@@ -55,5 +65,12 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-messaging-ktx")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.23.0")
+    implementation("com.google.api-client:google-api-client:2.6.0")
+
+    implementation("com.google.api-client:google-api-client-android:2.6.0")
+
 
 }
