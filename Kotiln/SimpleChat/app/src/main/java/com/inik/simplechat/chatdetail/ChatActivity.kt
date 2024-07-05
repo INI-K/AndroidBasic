@@ -44,6 +44,8 @@ class ChatActivity : AppCompatActivity() {
     private var otherUserName: String = ""
     private var isInit = false
     private var message: String = ""
+    private var serverKey: String = ""
+
 
     private val chatItemList = mutableListOf<ChatItem>()
 
@@ -52,6 +54,7 @@ class ChatActivity : AppCompatActivity() {
         binding = ActivityChatDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Log.e("채팅", "열림")
+        serverKey = getString(R.string.fcm_server_key)
 
         chatAdapter = ChatAdapter()
         chatRoomId = intent.getStringExtra(EXTRA_CHAT_ROOM_ID) ?: return
@@ -168,7 +171,9 @@ class ChatActivity : AppCompatActivity() {
             .createScoped(Collections.singleton("https://www.googleapis.com/auth/cloud-platform"))
         credentials.refreshIfExpired()
         val accessToken = credentials.refreshAccessToken().tokenValue
-        Log.d("FCM", "Access Token: $accessToken")
+
+        serverKey = "Bearer $accessToken"
+        Log.d("FCM", "Access Token11: $serverKey")
 
         sendFcm()
     }
@@ -188,7 +193,7 @@ class ChatActivity : AppCompatActivity() {
             root.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
         val request = Request.Builder().post(requsetBody)
             .url("https://fcm.googleapis.com/v1/projects/studysimplechat/messages:send")
-            .header("Authorization", Key.FCM_SERVER_KEY).build()
+            .header("Authorization", serverKey).build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -202,11 +207,10 @@ class ChatActivity : AppCompatActivity() {
                     Log.e("FCM", "재시도 : ${root.toString()}")
                     refreshServerKey()
                 }
-                binding.messageEditText.text.clear()
-                message = ""
             }
-
         })
+        binding.messageEditText.text.clear()
+        message = ""
     }
 
     companion object {
