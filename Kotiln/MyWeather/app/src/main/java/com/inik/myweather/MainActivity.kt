@@ -29,17 +29,23 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val service = retrofit.create(WeatherService::class.java)
+        val baseDateTime = BaseDateTime.getBaseDateTime()
+        val converter = GeoPointConverter()
+        val point = converter.convert(lat = 37.5581, lon = 126.9083)
+
+        Log.e("시간 확인(Date)",baseDateTime.baseDate)
+        Log.e("시간 확인(Time)",baseDateTime.baseTime)
 
         service.getVillageForcast(
             serviceKey = URLDecoder.decode(getString(R.string.apiKey), "UTF-8"),
-            baseDate = "20240705",
-            baseTime = "0500",
-            nx = 55,
-            ny = 127
+            baseDate = baseDateTime.baseDate,
+            baseTime = baseDateTime.baseTime,
+            nx = point.nx,
+            ny = point.ny
         ).enqueue(object : Callback<WeatherEntity> {
             override fun onResponse(call: Call<WeatherEntity>, response: Response<WeatherEntity>) {
 
-                Log.e("날씨 응답11", response.body().toString())
+                Log.e("날씨 응답11", call.request().url().toString())
                 Log.e(
                     "날씨 응답22",
                     response.body()?.response?.body?.items?.forecastEntities?.get(1)?.category.toString()
