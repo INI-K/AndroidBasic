@@ -3,29 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/weather_widget_background"
     android:gravity="center"
     android:orientation="vertical"
     tools:layout_height="40dp"
-    android:background="@drawable/weather_widget_background"
     tools:layout_width="110dp">
 
     <TextView
-        android:textColor="@color/white"
         android:id="@+id/temperatureTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="초기화"
-
+        android:textColor="@color/white"
         android:textSize="20sp"
-        tools:text="-10"/>
+        tools:text="-10" />
 
     <TextView
-        android:textColor="@color/white"
         android:id="@+id/weatherTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="test"
+        android:textColor="@color/white"
         android:textSize="10sp"
-        tools:text="맑음"/>
+        tools:text="맑음" />
 
 </LinearLayout>
