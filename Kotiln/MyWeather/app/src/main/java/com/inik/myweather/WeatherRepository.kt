@@ -62,6 +62,7 @@ object WeatherRepository {
                     }
                 }
                 val list = forecastDateTimeMap.values.toMutableList()
+                Log.e("날씨 확인 ", list.toString())
                 list.sortWith{f1,f2 ->
                     val f1DateTime = "${f1.forecastDate}${f1.forecastTime}"
                     val f2DateTime = "${f2.forecastDate}${f2.forecastTime}"
