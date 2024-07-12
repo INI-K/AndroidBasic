@@ -1,6 +1,7 @@
 package com.inik.foodpoint
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -11,6 +12,9 @@ import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -25,6 +29,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync(this)
+
+        SearchRepository.getGoodRestaurant("상수").enqueue(object : Callback<SearchResult>{
+            override fun onResponse(call: Call<SearchResult>, response: Response<SearchResult>) {
+                Log.e("맛집 확인", "${response.body().toString()}")
+            }
+
+            override fun onFailure(call: Call<SearchResult>, t: Throwable) {
+
+            }
+
+        })
     }
 
     override fun onStart() {
