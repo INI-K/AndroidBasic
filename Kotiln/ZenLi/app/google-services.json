@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1008452796769",
+    "project_id": "zenli-8353d",
+    "storage_bucket": "zenli-8353d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008452796769:android:cf26facd7986c15a9b4520",
+        "android_client_info": {
+          "package_name": "com.inik.zenli"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-Zcs45k9-ReutKOs6ema5jQ7xAQZCIyE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
