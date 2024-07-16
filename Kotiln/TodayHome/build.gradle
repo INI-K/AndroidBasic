@@ -2,4 +2,8 @@
 plugins {
 alias(libs.plugins.android.application) apply false
     alias(libs.plugins.jetbrains.kotlin.android) apply false
+<<<<<<< HEAD
+    alias(libs.plugins.google.gms.google.services) apply false
+=======
+>>>>>>> c7054156a5f41e826f23c08df89ecbc2a728ad22
 }

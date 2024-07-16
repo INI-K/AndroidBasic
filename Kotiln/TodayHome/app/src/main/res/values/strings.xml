@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">TodayHome</string>
+<<<<<<< HEAD
+    <string name="signUp">회원가입</string>
+    <string name="signIn">로그인</string>
+    <string name="logOut">로그아웃</string>
+=======
+>>>>>>> c7054156a5f41e826f23c08df89ecbc2a728ad22
 </resources>
