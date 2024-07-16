@@ -1,10 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-<<<<<<< HEAD
     alias(libs.plugins.google.gms.google.services)
-=======
->>>>>>> c7054156a5f41e826f23c08df89ecbc2a728ad22
 }
 
 android {
@@ -34,13 +31,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-<<<<<<< HEAD
 
     buildFeatures{
         viewBinding = true
     }
-=======
->>>>>>> c7054156a5f41e826f23c08df89ecbc2a728ad22
 }
 
 dependencies {
@@ -50,7 +44,6 @@ dependencies {
     implementation libs.material
     implementation libs.androidx.activity
     implementation libs.androidx.constraintlayout
-<<<<<<< HEAD
     implementation libs.firebase.firestore
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
@@ -61,9 +54,4 @@ dependencies {
     implementation ('com.google.firebase:firebase-auth-ktx:23.0.0')
     implementation ('com.google.firebase:firebase-firestore-ktx:25.0.0')
     implementation ('com.google.firebase:firebase-storage-ktx:21.0.0')
-=======
-    testImplementation libs.junit
-    androidTestImplementation libs.androidx.junit
-    androidTestImplementation libs.androidx.espresso.core
->>>>>>> c7054156a5f41e826f23c08df89ecbc2a728ad22
 }

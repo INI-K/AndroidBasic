@@ -5,7 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-<<<<<<< HEAD
     android:paddingStart="15dp"
     android:paddingEnd="15dp"
     tools:context=".MainActivity">
@@ -15,26 +14,15 @@
         android:layout_width="0dp"
         android:layout_marginTop="50dp"
         android:layout_height="wrap_content"
-=======
-    tools:context=".MainActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
->>>>>>> c7054156a5f41e826f23c08df89ecbc2a728ad22
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<<<<<<< HEAD
 
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailEditText" />
@@ -55,6 +43,4 @@
         android:text="@string/signIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
-=======
->>>>>>> c7054156a5f41e826f23c08df89ecbc2a728ad22
 </androidx.constraintlayout.widget.ConstraintLayout>

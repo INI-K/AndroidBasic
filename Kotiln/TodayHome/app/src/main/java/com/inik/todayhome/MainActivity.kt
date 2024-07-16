@@ -5,7 +5,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-<<<<<<< HEAD
 import androidx.core.view.isVisible
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
@@ -107,12 +106,4 @@ class MainActivity : AppCompatActivity() {
         binding.signUpBtn.isEnabled = true
     }
 
-=======
-
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
->>>>>>> c7054156a5f41e826f23c08df89ecbc2a728ad22
 }
