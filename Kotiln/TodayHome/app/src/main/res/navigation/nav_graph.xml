@@ -12,10 +12,13 @@
         <action
             android:id="@+id/action_homeFragment_to_writeArticleFragment"
             app:destination="@id/writeArticleFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:enterAnim="@anim/slid_in_right"
+            app:exitAnim="@anim/slid_out_left"
+            app:popEnterAnim="@anim/slid_in_left"
+            app:popExitAnim="@anim/slid_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"
@@ -27,5 +30,22 @@
         android:id="@+id/writeArticleFragment"
         android:name="com.inik.todayhome.ui.article.WriteArticleFragment"
         android:label="WriteArticleFragment"
-        tools:layout="@layout/fragment_write_article"/>
+        tools:layout="@layout/fragment_write_article">
+        <action
+            android:id="@+id/actionBack"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slid_in_left"
+            app:exitAnim="@anim/slid_out_right"
+            app:popEnterAnim="@anim/slid_in_right"
+            app:popExitAnim="@anim/slid_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.inik.todayhome.ui.article.ArticleFragment"
+        android:label="글 상세보기"
+        tools:layout="@layout/fragment_article">
+        <argument
+            android:name="artcleId"
+            app:argType="string" />
+    </fragment>
 </navigation>

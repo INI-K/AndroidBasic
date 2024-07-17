@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -19,18 +20,35 @@ class HomeFragment: Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
+        val articleAdapter = HomeArticleAdapter{
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToArticleFragment(artcleId = it.articleId.orEmpty()))
+        }
+        binding.homeRecyclerView.apply {
+            layoutManager = GridLayoutManager(context,2)
+                adapter = articleAdapter
+        }
 
-        val db = Firebase.firestore
-
-        db.collection("articles").document("UXK79jH9oA3K5i65WrFv")
+        Firebase.firestore.collection("articles")
             .get()
             .addOnSuccessListener {result ->
-                val article = result.toObject<ArticleModel>()
-                Log.e("아티클 확인", article.toString())
+                val list = result.map {
+                    it.toObject<ArticleModel>()
+                }
+                articleAdapter.submitList(list)
             }
-            .addOnFailureListener {
-                it.printStackTrace()
-            }
+
+
+//        val db = Firebase.firestore
+//
+//        db.collection("articles").document("UXK79jH9oA3K5i65WrFv")
+//            .get()
+//            .addOnSuccessListener {result ->
+//                val article = result.toObject<ArticleModel>()
+//                Log.e("아티클 확인", article.toString())
+//            }
+//            .addOnFailureListener {
+//                it.printStackTrace()
+//            }
 
         setupWriteBtn(view)
 
