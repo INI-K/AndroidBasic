@@ -6,13 +6,26 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.inik.todayhome.HomeFragment"
+        android:name="com.inik.todayhome.ui.home.HomeFragment"
         tools:layout="@layout/fragment_home"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_writeArticleFragment"
+            app:destination="@id/writeArticleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/authFragment"
         android:name="com.inik.todayhome.AuthFragment"
         tools:layout="@layout/fragment_auth"
         android:label="AuthFragment" >
     </fragment>
+    <fragment
+        android:id="@+id/writeArticleFragment"
+        android:name="com.inik.todayhome.ui.article.WriteArticleFragment"
+        android:label="WriteArticleFragment"
+        tools:layout="@layout/fragment_write_article"/>
 </navigation>
