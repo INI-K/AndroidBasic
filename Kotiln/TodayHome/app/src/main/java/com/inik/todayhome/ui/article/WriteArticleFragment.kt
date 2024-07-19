@@ -9,6 +9,8 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
@@ -23,16 +25,13 @@ import java.util.UUID
 
 class WriteArticleFragment : Fragment(R.layout.fragment_write_article) {
     private lateinit var binding: FragmentWriteArticleBinding
+    private lateinit var viewModel: WriteArticleViewModel
 
-    private var selectedUri: Uri? = null
 
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
-                selectedUri = uri
-                binding.photoImageView.setImageURI(uri)
-                binding.photoAddBtn.isVisible = false
-                binding.photoClearBtn.isVisible = true
+                viewModel.updateSeletedUri(uri)
             } else {
              Toast.makeText(context,"상태 확인 ?",Toast.LENGTH_SHORT).show()
             }
@@ -42,7 +41,10 @@ class WriteArticleFragment : Fragment(R.layout.fragment_write_article) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWriteArticleBinding.bind(view)
 
-        startPicker()
+        setupViewModel()
+        if(viewModel.seletedUri.value == null){
+            startPicker()
+        }
         setupPhotoImageView()
         setupPhotoDeleteBtn()
         setupSubmitBtn(view)
@@ -50,6 +52,23 @@ class WriteArticleFragment : Fragment(R.layout.fragment_write_article) {
         setupAddBtn()
 
 
+    }
+
+    private fun setupViewModel() {
+        viewModel = ViewModelProvider(requireActivity()).get<WriteArticleViewModel>()
+
+        viewModel.seletedUri.observe(viewLifecycleOwner) { uri ->
+            binding.photoImageView.setImageURI(uri)
+            if (uri != null) {
+                Log.e("사진 선택","ㅇㅇㅇㅇㅇㅇ")
+                binding.photoClearBtn.isVisible = true
+                binding.photoAddBtn.isVisible = false
+            } else {
+                Log.e("사진 선택","ㄴㄴㄴㄴㄴㄴ")
+                binding.photoAddBtn.isVisible = true
+                binding.photoClearBtn.isVisible = false
+            }
+        }
     }
 
     private fun setupAddBtn() {
@@ -61,16 +80,14 @@ class WriteArticleFragment : Fragment(R.layout.fragment_write_article) {
 
     private fun setupPhotoDeleteBtn() {
         binding.photoClearBtn.setOnClickListener {
-            binding.photoImageView.setImageURI(null)
-            selectedUri = null
-            binding.photoClearBtn.isVisible = false
-            binding.photoAddBtn.isVisible = true
+            viewModel.updateSeletedUri(null)
+
         }
     }
 
     private fun setupPhotoImageView() {
         binding.photoImageView.setOnClickListener {
-            if (selectedUri == null) {
+            if (viewModel.seletedUri.value == null) {
                 startPicker()
             }
         }
@@ -106,19 +123,15 @@ class WriteArticleFragment : Fragment(R.layout.fragment_write_article) {
                             errorHandler(exception)
                         }
                 } else {
-                    //error
-//                    task.exception?.printStackTrace()
                     errorHandler(task.exception)
-//                    Log.e("사진", "실패")
-//                    Snackbar.make(view,"이미지가 선택되지 않았습니다",Snackbar.LENGTH_SHORT).show()
                 }
             }
     }
     private fun setupSubmitBtn(view: View) {
         binding.submitBtn.setOnClickListener {
             showProgress()
-            if (selectedUri != null) {
-                val photoUri = selectedUri ?: return@setOnClickListener
+            if (viewModel.seletedUri.value != null) {
+                val photoUri = viewModel.seletedUri.value ?: return@setOnClickListener
                 uploadImage(
                     photoUri = photoUri,
                     successHandler = {
