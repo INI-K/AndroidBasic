@@ -29,5 +29,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         Glide.with(binding.appbarImageView)
             .load(homeData.appbarImage)
             .into(binding.appbarImageView)
+
+        binding.recommendMenuList.menuLayout.addView(
+            MenuView(context = requireContext()).apply {
+                setTitle("디카페인 카페라떼")
+                setImageView("https://picsum.photos/200/100")
+            }
+        )
     }
 }
