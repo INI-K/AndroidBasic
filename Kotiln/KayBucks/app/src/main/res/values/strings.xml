@@ -4,4 +4,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">홈</string>
     <string name="order">오더</string>
+    <string name="appbarTitleText">%s님,\n오늘 커피 한잔 어떠세요</string>
 </resources>
