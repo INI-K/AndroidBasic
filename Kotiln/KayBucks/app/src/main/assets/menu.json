@@ -1,0 +1,54 @@
+{
+  "coffee": [
+    {
+      "name": "아메리카노",
+      "image": "https://picsum.photos/100/100"
+    },
+    {
+      "name": "카페라떼",
+      "image": "https://picsum.photos/100/100"
+    },
+    {
+      "name": "아이스커피",
+      "image": "https://picsum.photos/100/100"
+    },
+    {
+      "name": "콜드브루",
+      "image": "https://picsum.photos/100/100"
+    },
+    {
+      "name": "얼그레이 티",
+      "image": "https://picsum.photos/100/100"
+    },
+    {
+      "name": "디카페인 카페라떼",
+      "image": "https://picsum.photos/100/100"
+    },
+    {
+      "name": "아이스 디카페인 카페라뗴",
+      "image": "https://picsum.photos/100/100"
+    },
+    {
+      "name": "아메리카노",
+      "image": "https://picsum.photos/100/100"
+    }
+  ],
+  "food"  : [
+    {
+      "name": "딸기 케이크",
+      "image": "https://picsum.photos/100/100"
+    },
+    {
+      "name": "초코 케이크",
+      "image": "https://picsum.photos/100/100"
+    },
+    {
+      "name": "치즈 케이크",
+      "image": "https://picsum.photos/100/100"
+    },
+    {
+      "name": "생크림 케이크",
+      "image": "https://picsum.photos/100/100"
+    }
+  ]
+}

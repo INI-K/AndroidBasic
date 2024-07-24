@@ -6,4 +6,7 @@
     <string name="order">오더</string>
     <string name="appbarTitleText">%s님,\n오늘 커피 한잔 어떠세요</string>
     <string name="appbar_star_title">%d/%d★</string>
+    <string name="recommend_title">%s님을 위한 추천메뉴</string>
+    <string name="food_menu_title">%s님을 위한 추천 디저트</string>
+    <string name="delivery">DELIVERY</string>
 </resources>

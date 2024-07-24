@@ -15,7 +15,7 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="%s님을 위한 추천메뉴" />
+        android:text="@string/recommend_title" />
 
     <HorizontalScrollView
         android:id="@+id/meneListHorizentalScrollView"
