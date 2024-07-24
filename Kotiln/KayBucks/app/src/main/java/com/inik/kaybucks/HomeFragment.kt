@@ -22,11 +22,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         initRecomentMenuList(homeData, menuData)
         initBanner(homeData)
         initFoodList(homeData, menuData)
+        initOrderFuntionBtn()
+    }
 
+    private fun initOrderFuntionBtn() {
         binding.scrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if(scrollY == 0){
+            if (scrollY == 0) {
                 binding.floatingActionBtn.extend()
-            }else{
+            } else {
                 binding.floatingActionBtn.shrink()
             }
         }
