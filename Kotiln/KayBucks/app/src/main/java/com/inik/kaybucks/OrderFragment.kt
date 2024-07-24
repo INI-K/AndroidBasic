@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.inik.kaybucks.databinding.FragmentHomeBinding
 import com.inik.kaybucks.databinding.FragmentOrderBinding
+import kotlin.math.abs
 
 class OrderFragment : Fragment(R.layout.fragment_order) {
     private lateinit var binding: FragmentOrderBinding
@@ -23,6 +24,11 @@ class OrderFragment : Fragment(R.layout.fragment_order) {
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = menuAdapter
+        }
+
+        binding.appbarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val seekPosition = abs(verticalOffset) / appBarLayout.totalScrollRange.toFloat()
+            binding.motionLayout.progress = seekPosition
         }
     }
 }
