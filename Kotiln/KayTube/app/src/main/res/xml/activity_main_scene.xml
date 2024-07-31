@@ -156,6 +156,11 @@
         motion:constraintSetStart="@+id/collapse"
         motion:duration="300"
         motion:motionInterpolator="linear" >
+
+        <OnSwipe
+            motion:touchAnchorId="@id/videoPlayerContainer"/>
+        <OnClick motion:targetId="@id/videoPlayerContainer"
+            motion:clickAction="transitionToEnd"/>
         <KeyFrameSet >
             <KeyPosition
                 motion:motionTarget="@+id/playerRecyclerView"
