@@ -24,7 +24,12 @@ class ExoPlayerMotionLayout
                     distanceX: Float,
                     distanceY: Float
                 ): Boolean {
-                    System.out.println("스크롤 확인")
+                    System.out.println("스크롤 확인 : ${
+                        targetView?.containTouchArea(
+                            e1?.x?.toInt(),
+                            e1?.y?.toInt()
+                        )
+                    }")
                     return targetView?.containTouchArea(e1?.x?.toInt(), e1?.y?.toInt()) ?: false
                 }
             })
