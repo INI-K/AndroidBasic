@@ -17,15 +17,21 @@ class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
-
+    private val videoList: VideoList by lazy {
+        readData("videos.json", VideoList::class.java) ?: VideoList(emptyList())
+    }
     private lateinit var videoAdapter: VideoAdapter
+    private lateinit var playerVideoAdapter: PlayerVideoAdapter
     private var player: ExoPlayer? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         initMotionLayout()
         initVideoRecyclerView()
+        initPlayerRecyclerView()
 
         initControlBtn()
         binding.hideBtn.setOnClickListener {
@@ -33,7 +39,10 @@ class MainActivity : AppCompatActivity() {
             player?.pause()
         }
 
+        videoAdapter.submitList(videoList.videos)
+
     }
+
 
     private fun initControlBtn() {
         binding.controlBtn.setOnClickListener {
@@ -49,8 +58,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initVideoRecyclerView() {
         videoAdapter = VideoAdapter(context = this, onClick = { videoItem ->
-            binding.motionLayout.setTransition(R.id.expand,R.id.collapse)
-            binding.motionLayout.transitionToEnd()
+
+            binding.motionLayout.setTransition(R.id.expand, R.id.collapse)
+            binding.motionLayout.transitionToState(R.id.expand)
+
+            val list = listOf(videoItem) + videoList.videos.filter { it.id != videoItem.id }
+            playerVideoAdapter.submitList(list)
+
             play(videoItem)
         })
 
@@ -59,15 +73,27 @@ class MainActivity : AppCompatActivity() {
             adapter = videoAdapter
         }
 
-        val videoList = readData("videos.json", VideoList::class.java) ?: VideoList(emptyList())
-        videoAdapter.submitList(videoList.videos)
+    }
+
+    private fun initPlayerRecyclerView() {
+        playerVideoAdapter = PlayerVideoAdapter(context = this) { videoItem ->
+            play(videoItem)
+
+            val list = listOf(videoItem) + videoList.videos.filter { it.id != videoItem.id }
+            playerVideoAdapter.submitList(list)
+        }
+
+        binding.playerRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = playerVideoAdapter
+        }
     }
 
     private fun initMotionLayout() {
         binding.motionLayout.targetView = binding.videoPlayerContainer
         binding.motionLayout.jumpToState(R.id.hide)
 
-        binding.motionLayout.setTransitionListener(object : MotionLayout.TransitionListener{
+        binding.motionLayout.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionStarted(
                 motionLayout: MotionLayout?,
                 startId: Int,
@@ -103,16 +129,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun initExoPlayer() {
         player = ExoPlayer.Builder(this).build()
-            .also {exoPlayer ->
+            .also { exoPlayer ->
                 binding.playerView.player = exoPlayer
                 binding.playerView.useController = false
-                exoPlayer.addListener(object : Player.Listener{
+                exoPlayer.addListener(object : Player.Listener {
                     override fun onIsPlayingChanged(isPlaying: Boolean) {
                         super.onIsPlayingChanged(isPlaying)
 
-                        if(isPlaying){
+                        if (isPlaying) {
                             binding.controlBtn.setImageResource(R.drawable.baseline_pause_24)
-                        }else{
+                        } else {
                             binding.controlBtn.setImageResource(R.drawable.baseline_play_arrow_24)
                         }
                     }
@@ -120,7 +146,7 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    private fun play(videoItem: VideoItem){
+    private fun play(videoItem: VideoItem) {
         player?.setMediaItem(MediaItem.fromUri(Uri.parse(videoItem.videoUrl)))
         player?.prepare()
         player?.play()
@@ -132,6 +158,7 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         player?.pause()
     }
+
     override fun onStart() {
         super.onStart()
         if (player == null) {
