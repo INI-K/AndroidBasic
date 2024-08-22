@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(), FaceAnalyzerListener {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+q
         setProgressText("시작하기를 눌러주세요")
         camera.initCamera(binding.cameraLayout, this@MainActivity)
 
