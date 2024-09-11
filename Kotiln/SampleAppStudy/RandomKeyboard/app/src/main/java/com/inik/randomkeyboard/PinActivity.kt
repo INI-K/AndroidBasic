@@ -3,6 +3,7 @@ package com.inik.randomkeyboard
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.inik.randomkeyboard.databinding.ActivityPinBinding
@@ -21,6 +22,10 @@ class PinActivity: AppCompatActivity(), ShuffleNumberKeyBoard.KeyPadListener{
         binding.lifecycleOwner = this
 
         binding.shuffleKeyBoard.setKeyPadListener(this)
+
+        viewModel.messageLiveData.observe(this){
+            Toast.makeText(this,it,Toast.LENGTH_SHORT).show()
+        }
     }
     override fun onClickNum(num: String) {
         viewModel.input(num)
