@@ -13,6 +13,7 @@ import kotlin.random.Random
 class ShuffleNumberKeyBoard @JvmOverloads
 constructor(context: Context, attr: AttributeSet? = null, defstyleAttr: Int = 0
 ) : GridLayout(context, attr, defstyleAttr), View.OnClickListener{
+
     private var _binding: WidgetShuffleNumberKeyboardBinding? = null
     private val binding get() = _binding!!
     private var listener : KeyPadListener? = null
@@ -29,15 +30,15 @@ constructor(context: Context, attr: AttributeSet? = null, defstyleAttr: Int = 0
         _binding = null
     }
     fun shuffle(){
-        val keyNumverArray = ArrayList<String>()
+        val keyNumberArray = ArrayList<String>()
         for (i in 0..9){
-            keyNumverArray.add(i.toString())
+            keyNumberArray.add(i.toString())
         }
         binding.gridLayout.children.forEach {view ->
             if(view is TextView && view.tag != null){
-                val randIndex = Random.nextInt(keyNumverArray.size)
-                view.text = keyNumverArray[randIndex]
-                keyNumverArray.removeAt(randIndex)
+                val randIndex = Random.nextInt(keyNumberArray.size)
+                view.text = keyNumberArray[randIndex]
+                keyNumberArray.removeAt(randIndex)
             }
         }
     }
