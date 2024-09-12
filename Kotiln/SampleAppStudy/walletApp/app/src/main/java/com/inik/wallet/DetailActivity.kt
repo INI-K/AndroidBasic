@@ -10,6 +10,7 @@ import com.inik.wallet.databinding.ActivityDetailBinding
 
 class DetailActivity: AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
+    private val adapter = DetailListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +22,7 @@ class DetailActivity: AppCompatActivity() {
     private fun initView(){
         binding.cardTitleTextView.text = intent.getStringExtra(CARD_NAME)
         binding.cardLayout.backgroundTintList = intent.getParcelableExtra(CARD_COLOR) as? ColorStateList
+        binding.recyclerView.adapter = adapter
     }
 
     companion object{
