@@ -1,5 +1,6 @@
 package com.inik.randomkeyboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -110,8 +111,9 @@ class IdentityInputActivity : AppCompatActivity() {
             return
         }
         if(!vaildPhone()){
-            binding.phoneLayout.error = "전화 번호 형식이 다릅니다."
+            binding.phoneLayout.error = "전화 번호 형식이  다릅니다."
         }
+        startActivity(Intent(this,VerifyOtpActivity::class.java))
     }
 
     private fun vaildName() = !binding.nameEdit.text.isNullOrBlank()

@@ -64,6 +64,5 @@ class PinViewModel : ViewModel() {
             after
         }
         return true
-
     }
 }

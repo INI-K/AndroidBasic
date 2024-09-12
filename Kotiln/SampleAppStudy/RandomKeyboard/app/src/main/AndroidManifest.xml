@@ -23,6 +23,7 @@
         </activity>
         <activity android:name="com.inik.randomkeyboard.PinActivity" />
         <activity android:name="com.inik.randomkeyboard.IdentityInputActivity" />
+        <activity android:name="com.inik.randomkeyboard.VerifyOtpActivity" />
     </application>
 
 </manifest>
