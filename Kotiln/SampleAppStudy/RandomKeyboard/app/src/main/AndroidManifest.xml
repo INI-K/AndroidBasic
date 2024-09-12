@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.inik.randomkeyboard.PinActivity" />
+        <activity android:name="com.inik.randomkeyboard.IdentityInputActivity" />
     </application>
 
 </manifest>

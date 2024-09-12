@@ -22,6 +22,6 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this,PinActivity::class.java))
     }
     fun openVerifyOtp(){
-
+        startActivity(Intent(this,IdentityInputActivity::class.java))
     }
 }
