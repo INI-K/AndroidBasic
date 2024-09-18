@@ -50,7 +50,7 @@ class MviActivity : AppCompatActivity() {
                         binding.progrssView.isVisible = false
                         binding.iamgeView.run {
                             setBackgroundColor(Color.parseColor(state.image.color))
-                            load(state.image.color){
+                            load(state.image.url){
                                 crossfade(300)
                             }
                         }
