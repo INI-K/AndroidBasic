@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.inik.mediasearch.model.VideoItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/thumnailImageView"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            app:image="@{item.thumbnailUrl}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#44000000"
+            android:padding="32dp"
+            app:layout_constraintBottom_toBottomOf="@id/thumnailImageView"
+            app:layout_constraintEnd_toEndOf="@id/thumnailImageView"
+            app:layout_constraintStart_toStartOf="@id/thumnailImageView"
+            app:layout_constraintTop_toTopOf="@id/thumnailImageView"
+            app:srcCompat="@drawable/baseline_play_circle_filled_24" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dateTextView"
+            android:layout_marginStart="8dp"
+            android:date="@{item.dateTime}"
+            app:layout_constraintStart_toStartOf="@id/thumnailImageView"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/titleTextView"
+            android:layout_marginTop="4dp"
+            android:text="@{item.title}"
+            app:layout_constraintStart_toStartOf="@id/dateTextView"
+            app:layout_constraintTop_toBottomOf="@id/dateTextView"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/playTimeTextView"
+            android:layout_marginTop="4dp"
+            android:text="@{item.playTime + '초'}"
+            app:layout_constraintStart_toStartOf="@id/titleTextView"
+            app:layout_constraintTop_toBottomOf="@id/titleTextView"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/authorTextView"
+            android:text="@{item.author}"
+            app:layout_constraintStart_toStartOf="@id/playTimeTextView"
+            app:layout_constraintTop_toBottomOf="@id/playTimeTextView"/>
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/favoriteImageView"
+            app:favorite = "@{item.favorite}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
