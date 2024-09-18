@@ -6,7 +6,7 @@ import androidx.databinding.BindingAdapter
 import coil.load
 import com.inik.imageextract.mvvm.model.Image
 
-@BindingAdapter
+@BindingAdapter("image")
 fun ImageView.setImage(image: Image?){
     if(image == null){
         return

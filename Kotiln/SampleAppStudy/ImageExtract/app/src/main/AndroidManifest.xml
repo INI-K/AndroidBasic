@@ -26,6 +26,7 @@
         <activity android:name="com.inik.imageextract.mvc.MvcActivity" />
         <activity android:name="com.inik.imageextract.mvp.MvpActivity" />
         <activity android:name="com.inik.imageextract.mvvm.MvvmActivity" />
+        <activity android:name="com.inik.imageextract.mvi.MviActivity" />
     </application>
 
 </manifest>

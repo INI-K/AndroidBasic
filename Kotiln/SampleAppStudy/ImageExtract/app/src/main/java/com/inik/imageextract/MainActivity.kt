@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.inik.imageextract.databinding.ActivityMainBinding
 import com.inik.imageextract.mvc.MvcActivity
+import com.inik.imageextract.mvi.MviActivity
 import com.inik.imageextract.mvp.MvpActivity
 import com.inik.imageextract.mvvm.MvvmActivity
 
@@ -32,6 +33,6 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this,MvvmActivity::class.java))
     }
     fun openMvi(){
-
+        startActivity(Intent(this,MviActivity::class.java))
     }
 }
