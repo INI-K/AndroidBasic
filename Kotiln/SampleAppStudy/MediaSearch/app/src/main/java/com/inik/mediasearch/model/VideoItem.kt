@@ -9,7 +9,7 @@ data class VideoListResponse(
     val documents : List<VideoItem>
 )
 data class VideoItem(
-    @SerializedName("thumnail") override val thumbnailUrl: String,
+    @SerializedName("thumbnail") override val thumbnailUrl: String,
     @SerializedName("title") val title : String,
     @SerializedName("play_time") val playTime : Int,
     @SerializedName("author") val author : String,

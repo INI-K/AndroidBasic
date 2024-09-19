@@ -7,6 +7,10 @@
         <variable
             name="item"
             type="com.inik.mediasearch.model.VideoItem" />
+
+        <variable
+            name="handler"
+            type="com.inik.mediasearch.list.ItemHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,48 +42,49 @@
             app:srcCompat="@drawable/baseline_play_circle_filled_24" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/dateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/dateTextView"
             android:layout_marginStart="8dp"
-            android:date="@{item.dateTime}"
-            app:layout_constraintStart_toStartOf="@id/thumnailImageView"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:date="@{item.dateTime}"
+            app:layout_constraintStart_toEndOf="@id/thumnailImageView"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/titleTextView"
             android:layout_marginTop="4dp"
             android:text="@{item.title}"
             app:layout_constraintStart_toStartOf="@id/dateTextView"
-            app:layout_constraintTop_toBottomOf="@id/dateTextView"/>
+            app:layout_constraintTop_toBottomOf="@id/dateTextView" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/playTimeTextView"
-            android:layout_marginTop="4dp"
-            android:text="@{item.playTime + '초'}"
-            app:layout_constraintStart_toStartOf="@id/titleTextView"
-            app:layout_constraintTop_toBottomOf="@id/titleTextView"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{item.playTime + `초`}"
+            app:layout_constraintStart_toStartOf="@id/titleTextView"
+            app:layout_constraintTop_toBottomOf="@id/titleTextView" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/authorTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@{item.author}"
             app:layout_constraintStart_toStartOf="@id/playTimeTextView"
-            app:layout_constraintTop_toBottomOf="@id/playTimeTextView"/>
+            app:layout_constraintTop_toBottomOf="@id/playTimeTextView" />
 
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/favoriteImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/favoriteImageView"
-            app:favorite = "@{item.favorite}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:favorite="@{item.favorite}"
+            android:onClick="@{() -> handler.onClickFavorite(item)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

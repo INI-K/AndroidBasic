@@ -15,8 +15,8 @@ fun View.setVisible(isShow : Boolean){
 }
 
 @BindingAdapter("image")
-fun ImageView.setImage(imagUrl : String?){
-    load(imagUrl){
+fun ImageView.setImage(imageUrl : String?){
+    load(imageUrl){
         crossfade(300)
     }
 }
