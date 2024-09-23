@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="item"
             type="com.inik.todo.model.ContentEntity" />
+        <variable
+            name="handler"
+            type="com.inik.todo.MainActivity.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,6 +17,8 @@
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
         android:paddingTop="8dp"
+        android:onClick="@{()-> handler.onClickItem(item)}"
+        android:onLongClick="@{() -> handler.onLongClickItem(item)}"
         android:paddingEnd="16dp"
         android:paddingBottom="8dp">
 
@@ -23,10 +28,13 @@
             android:layout_height="wrap_content"
             android:checked="@{item.done}"
             android:text="@{item.content}"
+            android:onCheckedChanged="@{(button, check) -> handler.onCheckedItem(item,check)}"
             android:textSize="18sp"
+            tools:text="테스트테스트"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -38,7 +46,7 @@
             android:drawablePadding="8dp"
             android:hint="없음"
             android:text="@{item.memo}"
-            android:textColor="#cccccc"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/contentCheckBox" />

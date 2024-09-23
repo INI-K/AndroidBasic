@@ -1,5 +1,6 @@
 package com.inik.todo
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,12 +22,24 @@ class InputViewModel @Inject constructor(
 
     var content = MutableLiveData<String>()
     var memo = MutableLiveData<String?>()
+    var item: ContentEntity? = null
 
-    fun insertData(){
+    fun initData(item: ContentEntity){
+        this.item = item
+        content.value = item.content
+        memo.value = item.memo
+
+        Log.i("확인", "${content.value} +++++ ${memo.value}")
+    }
+
+    fun insertData() {
         content.value?.let { content ->
             viewModelScope.launch(Dispatchers.IO) {
                 contentRepository.insert(
-                    ContentEntity(content = content, memo = memo.value)
+                    item?.copy(
+                        content = content,
+                        memo = memo.value
+                    ) ?: ContentEntity(content = content, memo = memo.value)
                 )
                 _doneEvent.postValue(Unit)
             }

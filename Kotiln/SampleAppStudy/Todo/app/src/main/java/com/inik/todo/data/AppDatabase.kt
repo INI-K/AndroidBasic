@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import com.inik.todo.model.ContentEntity
 
 @Database(entities = [ContentEntity::class], version = 1)
-abstract class AppDatabase: RoomDatabase() {
-    abstract fun contentDao(): ContentDao
+abstract class AppDatabase : RoomDatabase() {
+
+    abstract fun contentDao() : ContentDao
 }
