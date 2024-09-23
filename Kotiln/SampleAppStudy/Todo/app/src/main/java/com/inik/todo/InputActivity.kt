@@ -21,7 +21,7 @@ class InputActivity: AppCompatActivity() {
             viewModel = this@InputActivity.viewModel
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        
+
         viewModel.doneEvent.observe(this){
             Toast.makeText(this,"완료!",Toast.LENGTH_SHORT).show()
             finish()
