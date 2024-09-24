@@ -1,6 +1,7 @@
 package com.inik.blindclone.di
 
 import com.inik.blindclone.data.repository.ContentRepositoryImpl
+import com.inik.blindclone.data.source.local.dao.ContentDao
 import com.inik.blindclone.data.source.remote.api.ContentService
 import com.inik.blindclone.domain.repository.ContentRepository
 import dagger.Module
@@ -16,6 +17,7 @@ object RepositoryModule {
     @Provides
     @ViewModelScoped
     fun providesContentRepository(
-        contentService: ContentService
-    ): ContentRepository = ContentRepositoryImpl(contentService)
+        contentService: ContentService,
+        contentDao: ContentDao
+    ): ContentRepository = ContentRepositoryImpl(contentService,contentDao)
 }
