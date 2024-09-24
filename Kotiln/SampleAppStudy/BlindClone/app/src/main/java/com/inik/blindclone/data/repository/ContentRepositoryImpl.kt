@@ -8,6 +8,7 @@ import com.inik.blindclone.data.source.remote.api.ContentService
 import com.inik.blindclone.domain.model.Content
 import com.inik.blindclone.domain.repository.ContentRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 import okio.IOException
 import javax.inject.Inject
@@ -18,6 +19,9 @@ class ContentRepositoryImpl @Inject constructor(
 ) : ContentRepository {
     override fun loadList(): Flow<List<Content>> {
         return flow {
+            contentDao.selectAll().collect{list ->
+                emit(list.map { it.toContent() })
+            }
             emit(
                 try {
                     contentService.getList().data.map { it.toContent() }

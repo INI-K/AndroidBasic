@@ -37,4 +37,14 @@ object ContentMapper {
         viewCount = viewCount ?: 0,
         createDate = createdDate ?: Date()
     )
+    fun ContentEntity.toContent() = Content(
+        id = id,
+        title = title,
+        content = content,
+        category = category,
+        likeCount = likeCount,
+        commentCount = commentCount,
+        viewCount = viewCount,
+        createdDate = createDate,
+    )
 }

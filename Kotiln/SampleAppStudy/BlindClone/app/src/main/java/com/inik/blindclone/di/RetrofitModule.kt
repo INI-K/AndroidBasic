@@ -46,7 +46,7 @@ object RetrofitModule {
         gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://devpub.co.kr:3030/api/v1/fastcampus/chapter8/list")
+            .baseUrl("http://devpub.co.kr:3030/api/v1/fastcampus/chapter8/list/")
             .client(client.build())
             .build()
     }
