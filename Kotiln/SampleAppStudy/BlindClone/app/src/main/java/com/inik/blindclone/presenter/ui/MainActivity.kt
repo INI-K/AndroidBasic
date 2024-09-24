@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.inik.blindclone.R
 import com.inik.blindclone.databinding.ActivityMainBinding
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     private val adapter by lazy { ListAdapter(Handler()) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivityMainBinding.inflate(layoutInflater).apply {
             setContentView(root)
             view = this@MainActivity
@@ -26,12 +28,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickAdd(){
-
+        InputActivity.start(this)
     }
 
     inner class Handler{
         fun onClickItem(item: Content){
-
+            InputActivity.start(this@MainActivity,item)
         }
         fun onLongClickItem(item: Content): Boolean {
             AlertDialog.Builder(this@MainActivity)
