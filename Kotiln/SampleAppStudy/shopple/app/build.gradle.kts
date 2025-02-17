@@ -2,16 +2,18 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("org.jetbrains.kotlin.kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
     namespace = "com.inik.shopple"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.inik.shopple"
         minSdk = 29
-        targetSdk = 34
+        targetSdk = 3
         versionCode = 1
         versionName = "1.0"
 
@@ -41,6 +43,11 @@ android {
 
 dependencies {
     implementation (project(":domain"))
+    implementation (project(":data"))
+    implementation (project(":app"))
+
+    implementation("com.google.dagger:hilt-android:2.51")
+    kapt("com.google.dagger:hilt-compiler:2.51") // Kotlin Kapt 사용 시
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -57,4 +64,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+kapt {
+    correctErrorTypes = true
 }

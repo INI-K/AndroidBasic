@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -33,9 +34,9 @@ android {
 }
 
 dependencies {
-    implementation (project(":domain"))
-    implementation (project(":data"))
-    implementation (project(":app"))
+
+    implementation("com.google.dagger:hilt-android:2.51")
+    kapt("com.google.dagger:hilt-compiler:2.51") // Kotlin Kapt 사용 시
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
