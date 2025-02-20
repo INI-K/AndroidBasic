@@ -35,10 +35,10 @@ import com.inik.presentation.R
 import com.inik.presentation.ui.theme.ShoppleTheme
 import com.inik.presentation.viewmodel.MainViewModel
 
-sealed class MainNavigationItem(var route: String,var Icon : ImageVector, var name: String) {
+sealed class MainNavigationItem(var route: String, var Icon: ImageVector, var name: String) {
     object Main : MainNavigationItem("Main", Icons.Filled.Home, "Main")
-    object Category : MainNavigationItem("Category",Icons.Filled.Star, "Category")
-    object MyPage : MainNavigationItem("MyPage",Icons.Filled.AccountBox, "MyPage")
+    object Category : MainNavigationItem("Category", Icons.Filled.Star, "Category")
+    object MyPage : MainNavigationItem("MyPage", Icons.Filled.AccountBox, "MyPage")
 }
 
 @Preview(showBackground = true)
@@ -67,17 +67,18 @@ fun MainScreen() {
         MainNavigationScreen(navController)
     }
 }
+
 @Composable
-fun Header(viewModel: MainViewModel){
-    TopAppBar(title = {Text("Shopple")},
+fun Header(viewModel: MainViewModel) {
+    TopAppBar(title = { Text("Shopple") },
         actions = {
             IconButton(onClick = {
                 viewModel.openSearchForm()
             }) {
-                Icon(Icons.Filled.Search,"SearchAcition")
+                Icon(Icons.Filled.Search, "SearchAcition")
             }
         }
-        )
+    )
 }
 
 @Composable
