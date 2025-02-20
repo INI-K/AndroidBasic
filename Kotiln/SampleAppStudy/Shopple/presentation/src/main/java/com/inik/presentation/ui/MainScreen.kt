@@ -1,18 +1,28 @@
 package com.inik.presentation.ui
 
 
+import android.net.http.HeaderBlock
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
@@ -23,11 +33,12 @@ import androidx.navigation.compose.rememberNavController
 import com.inik.presentation.R
 
 import com.inik.presentation.ui.theme.ShoppleTheme
+import com.inik.presentation.viewmodel.MainViewModel
 
-sealed class MainNavigationItem(var route: String, var name: String) {
-    object Main : MainNavigationItem("Main", "Main")
-    object Category : MainNavigationItem("Category", "Category")
-    object MyPage : MainNavigationItem("MyPage", "MyPage")
+sealed class MainNavigationItem(var route: String,var Icon : ImageVector, var name: String) {
+    object Main : MainNavigationItem("Main", Icons.Filled.Home, "Main")
+    object Category : MainNavigationItem("Category",Icons.Filled.Star, "Category")
+    object MyPage : MainNavigationItem("MyPage",Icons.Filled.AccountBox, "MyPage")
 }
 
 @Preview(showBackground = true)
@@ -41,16 +52,32 @@ fun GreetingPreview() {
 @Suppress("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen() {
+    val viewModel = hiltViewModel<MainViewModel>()
     val scaffoldState = rememberScaffoldState()
     val navController = rememberNavController()
     Scaffold(
-        scaffoldState =  scaffoldState,
+        topBar = {
+            Header(viewModel)
+        },
+        scaffoldState = scaffoldState,
         bottomBar = {
             MainBottomNavigationBar(navController)
         }
     ) {
         MainNavigationScreen(navController)
     }
+}
+@Composable
+fun Header(viewModel: MainViewModel){
+    TopAppBar(title = {Text("Shopple")},
+        actions = {
+            IconButton(onClick = {
+                viewModel.openSearchForm()
+            }) {
+                Icon(Icons.Filled.Search,"SearchAcition")
+            }
+        }
+        )
 }
 
 @Composable
@@ -61,16 +88,14 @@ fun MainBottomNavigationBar(navController: NavHostController) {
         MainNavigationItem.MyPage,
     )
 
-    BottomNavigation(
-        backgroundColor = Color(0xffff0000),
-        contentColor = Color(0xff00ff00)
-    ) {
+    BottomNavigation {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
         bottomNavigationItems.forEach { item ->
             BottomNavigationItem(
-                selected = currentRoute == item.route, onClick = {
+                selected = currentRoute == item.route,
+                onClick = {
                     navController.navigate(item.route) {
                         navController.graph.startDestinationRoute?.let {
                             popUpTo(it) {
@@ -82,7 +107,7 @@ fun MainBottomNavigationBar(navController: NavHostController) {
                     }
 
                 },
-                icon = { Icon(painterResource(id = R.drawable.ic_android_black_24dp),item.route) },
+                icon = { Icon(item.Icon, item.route) },
             )
         }
     }
@@ -90,14 +115,14 @@ fun MainBottomNavigationBar(navController: NavHostController) {
 
 @Composable
 fun MainNavigationScreen(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = MainNavigationItem.Main.route){
-        composable(MainNavigationItem.Main.route){
+    NavHost(navController = navController, startDestination = MainNavigationItem.Main.route) {
+        composable(MainNavigationItem.Main.route) {
             Text(text = "Hello Main")
         }
-        composable(MainNavigationItem.Category.route){
+        composable(MainNavigationItem.Category.route) {
             Text(text = "Hello Category")
         }
-        composable(MainNavigationItem.MyPage.route){
+        composable(MainNavigationItem.MyPage.route) {
             Text(text = "Hello MyPage")
         }
     }
