@@ -5,6 +5,7 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.inik.domain.model.Banner
+import com.inik.domain.model.BannerList
 import com.inik.domain.model.BaseModel
 import com.inik.domain.model.ModelType
 import com.inik.domain.model.Product
@@ -25,12 +26,15 @@ class BaseModelDeserializer : JsonDeserializer<BaseModel> {
 
         val typeString = root?.get(TYPE)?.asString ?: ""
 
-        return when(ModelType.valueOf(typeString)){
+        return when (ModelType.valueOf(typeString)) {
             ModelType.PRODUCT -> {
-                gson.fromJson(root,Product::class.java)
+                gson.fromJson(root, Product::class.java)
             }
             ModelType.BANNER -> {
-                gson.fromJson(root,Banner::class.java)
+                gson.fromJson(root, Banner::class.java)
+            }
+            ModelType.BANNER_LIST -> {
+                gson.fromJson(root, BannerList::class.java)
             }
         }
     }
