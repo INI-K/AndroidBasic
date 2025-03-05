@@ -32,6 +32,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.inik.presentation.R
 
+import com.inik.presentation.ui.main.MainInsideScreen
+
 import com.inik.presentation.ui.theme.ShoppleTheme
 import com.inik.presentation.viewmodel.MainViewModel
 
@@ -64,7 +66,7 @@ fun MainScreen() {
             MainBottomNavigationBar(navController)
         }
     ) {
-        MainNavigationScreen(navController)
+        MainNavigationScreen(mainViewModel = viewModel,navController)
     }
 }
 
@@ -115,10 +117,10 @@ fun MainBottomNavigationBar(navController: NavHostController) {
 }
 
 @Composable
-fun MainNavigationScreen(navController: NavHostController) {
+fun MainNavigationScreen(mainViewModel: MainViewModel,navController: NavHostController) {
     NavHost(navController = navController, startDestination = MainNavigationItem.Main.route) {
         composable(MainNavigationItem.Main.route) {
-            Text(text = "Hello Main")
+            MainInsideScreen(mainViewModel)
         }
         composable(MainNavigationItem.Category.route) {
             Text(text = "Hello Category")

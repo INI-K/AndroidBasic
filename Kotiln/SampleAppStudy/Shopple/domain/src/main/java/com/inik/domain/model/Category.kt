@@ -1,11 +1,11 @@
 package com.inik.domain.model
 
-sealed class Category(
+open class Category(
     val categoryId: String,
     val categoryName: String,
 ){
     object Top : Category("1","상의")
-    object Outrwear : Category("2","아우터")
+    object Outwear : Category("2","아우터")
     object Dress : Category("3","원피스")
     object Pants : Category("4","바지")
     object Skirt : Category("5","치마")
